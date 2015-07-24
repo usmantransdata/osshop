@@ -1,0 +1,13 @@
+# disabling file access
+<FilesMatch .*>
+order allow,deny
+deny from all
+</FilesMatch>
+
+# allow PDF access
+<FilesMatch .pdf>
+order allow,deny
+allow from all
+</FilesMatch>
+
+Options -Indexes

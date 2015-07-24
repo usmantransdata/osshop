@@ -1,0 +1,67 @@
+# Editors
+/.idea/*
+/.settings/*
+/.project
+/.buildpath
+/.sublime-workspace
+/.sublime-project
+/sftp-config.json
+/*~
+
+# OXID
+/log/*
+!/log/.htaccess
+/export/*
+!/export/.htaccess
+!/export/index.html
+!/export/*.php
+/tmp/*
+!/tmp/.htaccess
+!/tmp/*/.htaccess
+!/tmp/dir.txt
+!/tmp/*/dir.txt
+/import_photos/*
+!/import_photos/.htaccess
+!/import_photos/*/.htaccess
+!/import_photos/dir.txt
+!/import_photos/*/dir.txt
+/stats/*
+!/stats/.htaccess
+!/stats/*/.htaccess
+/cust_config.inc.php
+out/pictures/
+out/media/
+/out/downloads/*
+!/out/downloads/dir.txt
+!/out/downloads/.htaccess
+/out/upload/*
+!/out/upload/dir.txt
+!/out/upload/*/dir.txt
+!/out/upload/*.htaccess
+!/out/upload/*/.htaccess
+favicon.ico
+!*dir.txt
+!*empty
+!.htaccess
+!*.htaccess
+*.min.min.js
+*.min.min.css
+
+# PMA.
+/phpmyadmin/*
+/pma/*
+/myadmin/*
+
+# Project
+/AnyFu/*
+/Corporate/*
+local.inc.php
+
+# Custom shop content.
+/out/parduotuve/src/shopcustom/*.css
+/out/parduotuve/src/shopcustom/*.jpg
+/out/parduotuve/src/shopcustom/*.jpeg
+/out/parduotuve/src/shopcustom/*.png
+/modules/shopcustom/*.php
+/application/views/parduotuve/lt/cust_lang.php
+/application/views/parduotuve/en/cust_lang.php

@@ -1,0 +1,91 @@
+# In case you want to add a .htpasswd authentification
+# you'll have to add the host of the shop as an allowed entity,
+# so that calls from the host skip the authentification
+# Example:
+# Order Deny,Allow
+# Deny from All
+# AuthType Basic
+# AuthName "Access not allowed"
+# AuthUserFile path_to_htpasswd_file/.htpasswd
+# Require valid-user
+# Allow from localhost
+# Satisfy Any
+
+SetEnv SENTRY_DSN 'http://cd020882604a4d579a5d9ecfd1219192:3f2cb9cb22c042f0a561dcb770a27a9f@cls.datadog.org/39'
+
+# Compression.
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+
+    AddOutputFilter DEFLATE js css htm html xml
+</IfModule>
+
+# Browser caching.
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType application/javascript "access plus 1 months"
+    ExpiresByType application/x-javascript "access plus 1 months"
+    ExpiresByType text/javascript "access plus 1 months"
+    ExpiresByType text/css "access plus 1 months"
+
+    <FilesMatch "\.(js|css)$">
+        ExpiresDefault "access plus 1 months"
+    </FilesMatch>
+</IfModule>
+
+<IfModule mod_rewrite.c>
+# Options +FollowSymLinks # Turned OFF in development server.
+RewriteEngine On
+RewriteBase /
+
+RewriteCond %{REQUEST_METHOD} ^(TRACE|TRACK)
+RewriteRule .* - [F]
+
+# Sitemap.xml
+RewriteRule sitemap-(.*)\.xml index.php?cl=sitemap&xml=$1 [nocase]
+RewriteRule sitemap\.xml index.php?cl=sitemap&xml=start [nocase]
+
+# Robots.txt
+RewriteRule robots\.txt index.php?cl=robots [nocase]
+
+# Soundtest
+RewriteRule api\/(.*) modules/soundest/api.php?r=$1 [nocase]
+
+RewriteCond %{REQUEST_URI} oxseo\.php$
+RewriteCond %{QUERY_STRING} mod_rewrite_module_is=off
+RewriteRule oxseo\.php$ oxseo.php?mod_rewrite_module_is=on [L]
+
+RewriteCond %{REQUEST_URI} !(\/admin\/|\/core\/|\/application\/|\/export\/|\/modules\/|\/out\/|\/setup\/|\/tmp\/|\/views\/)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule !(\.html|\/|\.jpg|\.css|\.pdf|\.doc|\.gif|\.png|\.js|\.htc)$ %{REQUEST_URI}/ [R=301,L]
+
+RewriteCond %{REQUEST_URI} !(\/admin\/|\/core\/|\/application\/|\/export\/|\/modules\/|\/out\/|\/setup\/|\/tmp\/|\/views\/)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule (\.html|\/)$ oxseo.php
+
+
+RewriteCond %{REQUEST_URI} (\/out\/pictures\/)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule (\.jpe?g|\.gif|\.png)$ getimg.php
+
+</IfModule>
+
+# disabling log file access from outside
+<FilesMatch "(EXCEPTION_LOG\.txt|\.log$|\.tpl$|pkg\.rev|\.ini|pkg\.info|\.pem$|\.sql|\.sh)">
+order allow,deny
+deny from all
+</FilesMatch>
+
+Options -Indexes
+DirectoryIndex index.php index.html
