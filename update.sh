@@ -117,8 +117,8 @@ ln -s /home/oxidbase/data/modules/translations/views/ modules/translations/views
 rm -r modules/translations/menu.xml
 ln -s /home/oxidbase/data/modules/translations/menu.xml modules/translations/menu.xml
 
-rm -r modules/translations/menu.xml
-ln -s /home/oxidbase/data/modules/translations/menu.xml modules/translations/menu_deactivated.xml
+rm -r modules/translations/menu_deactivated.xml
+ln -s /home/oxidbase/data/modules/translations/menu_deactivated.xml modules/translations/menu_deactivated.xml
 
 rm -r modules/translations/metadata.php
 ln -s /home/oxidbase/data/modules/translations/metadata.php modules/translations/metadata.php
