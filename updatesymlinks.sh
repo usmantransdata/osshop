@@ -23,7 +23,6 @@ ln -s /home/oxidbase/data/out/minimal/ out/minimal
 rm -r out/parduotuve
 ln -s /home/oxidbase/data/out/parduotuve/ out/parduotuve
 
-
 #symlink modules one by one
 rm -r modules/actionlist
 ln -s /home/oxidbase/data/modules/actionlist/ modules/actionlist
@@ -125,33 +124,8 @@ ln -s /home/oxidbase/data/modules/translations/readme.md modules/translations/re
 rm -r modules/translations/.gitignore
 ln -s /home/oxidbase/data/modules/translations/.gitignore modules/translations/.gitignore
 
-#shopinn
-rm -r modules/shopinn/components
-ln -s /home/oxidbase/data/modules/shopinn/components/ modules/shopinn/components
-
-rm -r modules/shopinn/controllers
-ln -s /home/oxidbase/data/modules/shopinn/controllers/ modules/shopinn/controllers
-
-rm -r modules/shopinn/core
-ln -s /home/oxidbase/data/modules/shopinn/core/ modules/shopinn/core
-
-rm -r modules/shopinn/models
-ln -s /home/oxidbase/data/modules/shopinn/models/ modules/shopinn/models
-
-rm -r modules/shopinn/poke
-ln -s /home/oxidbase/data/modules/shopinn/poke/ modules/shopinn/poke
-
-rm -r modules/shopinn/translations
-ln -s /home/oxidbase/data/modules/shopinn/translations/ modules/shopinn/translations
-
-rm -r modules/shopinn/views
-ln -s /home/oxidbase/data/modules/shopinn/views/ modules/shopinn/views
-
-rm -r modules/shopinn/xml
-ln -s /home/oxidbase/data/modules/shopinn/xml/ modules/shopinn/xml
-
-rm -r modules/shopinn/metadata.php
-ln -s /home/oxidbase/data/modules/shopinn/metadata.php modules/shopinn/metadata.php
+rm -r modules/shopinn
+ln -s /home/oxidbase/data/modules/watermark/ modules/shopinn
 
 
 # Run migrations
