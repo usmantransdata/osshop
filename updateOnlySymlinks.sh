@@ -126,7 +126,7 @@ rm -r modules/translations/.gitignore
 ln -s /home/oxidbase/data/modules/translations/.gitignore modules/translations/.gitignore
 
 rm -r modules/shopinn
-ln -s /home/oxidbase/data/modules/watermark/ modules/shopinn
+ln -s /home/oxidbase/data/modules/shopinn/ modules/shopinn
 
 
 # Set permissions and owner.
