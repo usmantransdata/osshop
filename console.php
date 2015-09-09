@@ -24,14 +24,15 @@ switch (mb_strtolower($argv[1])) {
 
     case 'db:delete':
         $aTables = oxDb::getDb()->getAll('show tables');
+
         foreach ($aTables as $aTable) {
-            if(strpos($aTable[0], "oxv_") !== false) {
+            if (strpos($aTable[0], "oxv_") !== false) {
                 oxDb::getDb()->execute("DROP VIEW `" . $aTable[0] . "`");
-            }
-            else {
+            } else {
                 oxDb::getDb()->execute("DROP TABLE `" . $aTable[0] . "`");
             }
         }
+
         echo "Done. (" . t() . ")\n\n";
         break;
 
@@ -53,24 +54,30 @@ switch (mb_strtolower($argv[1])) {
         echo "Resetting all cache ...\n";
 
         $aFiles = glob('tmp/*');
+
         foreach ($aFiles as $sFilePath) {
             if (basename($sFilePath) == '.htaccess' || is_dir($sFilePath)) {
                 continue;
             }
             unlink($sFilePath);
         }
+
         $aFiles = glob('tmp/smarty/*');
+
         foreach ($aFiles as $sFilePath) {
             if (basename($sFilePath) == '.htaccess' || is_dir($sFilePath)) {
                 continue;
             }
             unlink($sFilePath);
         }
+
         echo "Done. (" . t() . ")\n\n";
         break;
+
     case 'cache:log':
         file_put_contents("log/EXCEPTION_LOG.txt", "");
         break;
+
     case 'mod:on':
     case 'mod:enable':
     case 'module:on':
@@ -78,33 +85,35 @@ switch (mb_strtolower($argv[1])) {
         echo "Enabling module ...\n";
 
         $sModuleId = @$argv[2];
-        while(empty($sModuleId)) {
+
+        while (empty($sModuleId)) {
             echo "Enter module ID: ";
             $sModuleId = trim(fgets(STDIN));
         }
 
         /** @var oxModule $module */
         $module = oxNew('oxModule');
+
         if (!$module->load($argv[2])) {
             echo "Load error!\n\n";
             return;
         }
 
         if ($module->activate()) {
+            $aModulePaths = $module->getModulePaths();
 
-	        $aModulePaths = $module->getModulePaths();
+            if (!is_array($aModulePaths) || !array_key_exists($argv[2], $aModulePaths)) {
+                $oConfig = $module->getConfig();
+                $aModulePaths[$argv[2]] = $argv[2];
+                $oConfig = $module->getConfig();
+                $oConfig->saveShopConfVar('aarr', 'aModulePaths', $aModulePaths);
+            }
 
-	        if ( !is_array($aModulePaths) || !array_key_exists( $argv[2], $aModulePaths ) ) {
-		        $oConfig = $module->getConfig();
-		        $aModulePaths[$argv[2]] = $argv[2];
-		        $oConfig = $module->getConfig();
-		        $oConfig->saveShopConfVar( 'aarr', 'aModulePaths', $aModulePaths );
-	        }
-
-	        echo "Done. (" . t() . ")\n\n";
+            echo "Done. (" . t() . ")\n\n";
         } else {
             echo "Error!\n\n";
         }
+
         break;
 
     case 'mod:off':
@@ -114,13 +123,15 @@ switch (mb_strtolower($argv[1])) {
         echo "Disabling module ...\n";
 
         $sModuleId = @$argv[2];
-        while(empty($sModuleId)) {
+
+        while (empty($sModuleId)) {
             echo "Enter module ID: ";
             $sModuleId = trim(fgets(STDIN));
         }
 
         /** @var oxModule $module */
         $module = oxNew('oxModule');
+
         if (!$module->load($argv[2])) {
             echo "Load error!\n\n";
             return;
@@ -133,6 +144,7 @@ switch (mb_strtolower($argv[1])) {
         }
 
         break;
+
     case 'mod:i':
     case 'mod:info':
     case 'module:i':
@@ -168,6 +180,33 @@ switch (mb_strtolower($argv[1])) {
         echo "\n";
 
         break;
+
+    case 'module:cleanup':
+        echo "Cleaning module list ...\n";
+
+        /** @var oxModuleList $oModuleList */
+        $oModuleList = oxNew('oxModuleList');
+        $aModules = $oModuleList->getModulePaths();
+
+        foreach ($aModules as $sKey => $sModule) {
+            /** @var oxModule $oModule */
+            $oModule = oxNew('oxModule');
+
+            echo "Loading module [$sKey]... ";
+
+            if (!$oModule->load($sKey) || $oModule->getId() !== $sKey) {
+                echo "not found - removing\n";
+                unset($aModules[$sKey]);
+            } else {
+                echo "ok\n";
+            }
+        }
+
+        oxRegistry::getConfig()->saveShopConfVar('aarr', 'aModulePaths', $aModules);
+
+        echo "Done. (" . t() . ")\n\n";
+        break;
+
     case 'config:get':
     case 'conf:get':
     case 'settings:get':
@@ -175,7 +214,8 @@ switch (mb_strtolower($argv[1])) {
         echo "Loading config ...\n";
 
         $sUsername = @$argv[2];
-        while(empty($sUsername)) {
+
+        while (empty($sUsername)) {
             echo "Enter config name: ";
             $sUsername = trim(fgets(STDIN));
         }
@@ -192,18 +232,21 @@ switch (mb_strtolower($argv[1])) {
         echo "Saving config ...\n";
 
         $sUsername = @$argv[2];
-        while(empty($sUsername)) {
+
+        while (empty($sUsername)) {
             echo "Enter config name: ";
             $sUsername = trim(fgets(STDIN));
         }
 
         $sConfigValue = @$argv[3];
-        while(empty($sConfigValue) && $sConfigValue != 0) {
+
+        while (empty($sConfigValue) && $sConfigValue != 0) {
             echo "Enter config value: ";
             $sConfigValue = trim(fgets(STDIN));
         }
 
         $sType = $argv[4];
+
         if (!$sType) {
             $sType = 'str';
         }
@@ -216,13 +259,15 @@ switch (mb_strtolower($argv[1])) {
         echo "Changing password ...\n";
 
         $sUsername = @$argv[2];
-        while(empty($sUsername)) {
+
+        while (empty($sUsername)) {
             echo "Enter username: ";
             $sUsername = trim(fgets(STDIN));
         }
 
         $sPassword = @$argv[3];
-        while(empty($sPassword)) {
+
+        while (empty($sPassword)) {
             echo "Enter new password: ";
             $sPassword = trim(fgets(STDIN));
         }
@@ -231,7 +276,8 @@ switch (mb_strtolower($argv[1])) {
         $oUser = oxNew('oxUser');
 
         $sUserId = $oUser->getIdByUserName($sUsername);
-        if(empty($sUserId)) {
+
+        if (empty($sUserId)) {
             echo "Not found user by username: " . $sUsername . "!\n\n";
             return;
         }
@@ -247,13 +293,15 @@ switch (mb_strtolower($argv[1])) {
         echo "Changing rights ...\n";
 
         $sUsername = @$argv[2];
-        while(empty($sUsername)) {
+
+        while (empty($sUsername)) {
             echo "Enter username: ";
             $sUsername = trim(fgets(STDIN));
         }
 
         $sRights = @$argv[3];
-        while(empty($sRights) || !in_array($sRights, array('user', 'malladmin'))) {
+
+        while (empty($sRights) || !in_array($sRights, array('user', 'malladmin'))) {
             echo "Enter new rights (user|malladmin): ";
             $sRights = trim(fgets(STDIN));
         }
@@ -262,7 +310,8 @@ switch (mb_strtolower($argv[1])) {
         $oUser = oxNew('oxUser');
 
         $sUserId = $oUser->getIdByUserName($sUsername);
-        if(empty($sUserId)) {
+
+        if (empty($sUserId)) {
             echo "Not found user by username: " . $sUsername . "!\n\n";
             return;
         }
@@ -276,14 +325,16 @@ switch (mb_strtolower($argv[1])) {
         echo "Changing country...\n";
 
         $sUsername = @$argv[2];
-        while(empty($sUsername)) {
+
+        while (empty($sUsername)) {
             echo "Enter username: ";
             $sUsername = trim(fgets(STDIN));
         }
 
-        $aCountries = array( 'lt' => 'c97a9e28e5a92e66002b4b80e9a2ef9d');
+        $aCountries = array('lt' => 'c97a9e28e5a92e66002b4b80e9a2ef9d');
         $sCountry = @$argv[3];
-        while(empty($sCountry) || !in_array($sCountry, array('lt'))) {
+
+        while (empty($sCountry) || !in_array($sCountry, array('lt'))) {
             echo "Enter new country (lt): ";
             $sCountry = trim(fgets(STDIN));
         }
@@ -292,7 +343,8 @@ switch (mb_strtolower($argv[1])) {
         $oUser = oxNew('oxUser');
 
         $sUserId = $oUser->getIdByUserName($sUsername);
-        if(empty($sUserId)) {
+
+        if (empty($sUserId)) {
             echo "Not found user by username: " . $sUsername . "!\n\n";
             return;
         }
@@ -306,35 +358,36 @@ switch (mb_strtolower($argv[1])) {
         echo "Changing currency...\n";
 
         $sCurrName = @$argv[2];
-        while(empty($sCurrName)) {
+
+        while (empty($sCurrName)) {
             echo "Enter currency name (ngn|eur|usd): ";
             $sCurrName = trim(fgets(STDIN));
         }
 
         $aCurrencies = array(
             'ngn' => array(
-                'name'      => 'NGN',
-                'rate'      => '1',
-                'dec'       => ',',
-                'thousand'  => '',
-                'sign'      => '₦',
-                'decimal'   => 2
+                'name' => 'NGN',
+                'rate' => '1',
+                'dec' => ',',
+                'thousand' => '',
+                'sign' => '₦',
+                'decimal' => 2
             ),
             'eur' => array(
-                'name'      => 'EUR',
-                'rate'      => '1',
-                'dec'       => ',',
-                'thousand'  => '',
-                'sign'      => '€',
-                'decimal'   => 2
+                'name' => 'EUR',
+                'rate' => '1',
+                'dec' => ',',
+                'thousand' => '',
+                'sign' => '€',
+                'decimal' => 2
             ),
             'usd' => array(
-                'name'      => 'USD',
-                'rate'      => '1',
-                'dec'       => ',',
-                'thousand'  => '',
-                'sign'      => '$',
-                'decimal'   => 2
+                'name' => 'USD',
+                'rate' => '1',
+                'dec' => ',',
+                'thousand' => '',
+                'sign' => '$',
+                'decimal' => 2
             )
         );
 
@@ -362,6 +415,7 @@ switch (mb_strtolower($argv[1])) {
         `chmod +x console.php`;
         echo "Done. (" . t() . ")\n\n";
         break;
+
     case 'info':
         /** @var oxShop $oBaseShop */
         $oBaseShop = oxNew("oxshop");
@@ -388,6 +442,7 @@ switch (mb_strtolower($argv[1])) {
         echo "  cache:log                                 Clear EXEPTION_LOG.txt file\n";
         echo "  module:enable <module_id>                 Enable module with provided ID\n";
         echo "  module:disable <module_id>                Disable module with provided ID\n";
+        echo "  module:cleanup                            Removes invalid module entries from database\n";
         echo "  module:info                               Show modules info\n";
         echo "  config:get <name>                         Load and display config parameter from database\n";
         echo "  config:set <name> <value> [type] [module] Set new value for config parameter\n";
