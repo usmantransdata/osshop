@@ -130,6 +130,9 @@ ln -s /home/oxidbase/data/modules/translations/.gitignore modules/translations/.
 rm -r modules/shopinn
 ln -s /home/oxidbase/data/modules/shopinn/ modules/shopinn
 
+/bin/rm payment.inc.php
+ln -s /home/oxidbase/data/payment.inc.php payment.inc.php
+
 # Run migrations
 echo "Running migrations ...";
 php migrations/run.php;
