@@ -25,7 +25,6 @@ ln -s /home/oxidbase/data/out/minimal/ out/minimal
 rm -r out/parduotuve
 ln -s /home/oxidbase/data/out/parduotuve/ out/parduotuve
 
-
 #symlink modules one by one
 rm -r modules/actionlist
 ln -s /home/oxidbase/data/modules/actionlist/ modules/actionlist
@@ -145,6 +144,10 @@ echo "Done.";
 #php modules/shopinn/cron/feedback.php &> /dev/null;
 #php modules/shopinn/cron/locations.php &> /dev/null;
 #php modules/shopinn/cron/changePlan.php &> /dev/null;
+#echo "Done.";
+
+# Regenerate views
+echo "Regenerating views...";
 php genviews.php &> /dev/null;
 echo "Done.";
 
