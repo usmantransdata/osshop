@@ -528,10 +528,10 @@ class oxDynImgGenerator
                     $aSplit = split('/', $nummatches[0]);
 
                     $sWMPath = str_replace('/master/product/'.$aSplit[1].'/', '/generated/product/'.$aSplit[1].'/wm/', $sImageSource);
-                    $sWMPath = preg_replace( "/(\.\w+$)/", ".png", $sWMPath );
+                    $sWMPath = preg_replace( "/(\.\w+$)/", ".jpg", $sWMPath );
                     if( file_exists( $sWMPath ) ) {
                         $sImageSource = $sWMPath;
-                        $sImageType = 'png';
+                        $sImageType = 'jpeg';
                     }
                 }
 
@@ -543,10 +543,10 @@ class oxDynImgGenerator
                     $aSplit = split('/', $nummatches[0]);
 
                     $sWMPath = str_replace('/master/product/'.$aSplit[1].'/', '/generated/product/'.$aSplit[1].'/wm/', $sImageSource);
-                    $sWMPath = preg_replace( "/(\.\w+$)/", ".png", $sWMPath );
+                    $sWMPath = preg_replace( "/(\.\w+$)/", ".jpg", $sWMPath );
                     if( file_exists( $sWMPath ) ) {
                         $sImageSource = $sWMPath;
-                        $sImageType = 'png';
+                        $sImageType = 'jpeg';
                     }
                 }
             //}
