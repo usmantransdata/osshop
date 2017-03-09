@@ -46,6 +46,8 @@ SetEnv SENTRY_DSN 'http://cd020882604a4d579a5d9ecfd1219192:3f2cb9cb22c042f0a561d
 RewriteEngine On
 RewriteBase /
 
+RewriteRule ^\.git - [F]
+
 RewriteCond %{REQUEST_METHOD} ^(TRACE|TRACK)
 RewriteRule .* - [F]
 
