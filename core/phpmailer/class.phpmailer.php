@@ -439,17 +439,10 @@ class PHPMailer {
  * @param string $name
  * @return boolean
  */
-  public function SetFrom($address, $name = '') {
-    $address    = trim($address);
-    $name       = trim(preg_replace('/[\r\n]+/', '', $name)); //Strip breaks and trim
-
-    /*if(!$this->IsSMTP()) {
-      $address    = 'no-reply@shopinn.lt';
-      $name       = 'no-reply@shopinn.lt';
-    }*/
-
-    $sShopURL         = str_replace( '/', '', str_replace( 'www.', '', str_replace( 'http://', '', oxRegistry::get("oxConfigFile")->getVar('sShopURL') ) ) );
-    $sShopDomainUrl   = str_replace( '/', '', str_replace( 'www.', '', str_replace( 'http://', '', oxRegistry::get("oxConfigFile")->getVar('sShopDomainUrl') ) ) );
+  public function SetFrom($address, $name = '')
+  {
+    $sShopURL         = str_replace( '/', '', str_replace( 'www.', '', str_replace( array('http://', 'https://'), '', oxRegistry::get("oxConfigFile")->getVar('sShopURL') ) ) );
+    $sShopDomainUrl   = str_replace( '/', '', str_replace( 'www.', '', str_replace( array('http://', 'https://'), '', oxRegistry::get("oxConfigFile")->getVar('sShopDomainUrl') ) ) );
 
     $bSPF = oxRegistry::getConfig()->getShopConfVar('bShopinnSPF');
     if(!empty($sShopDomainUrl) && $bSPF) {
