@@ -1,6 +1,11 @@
 #!/bin/bash
 #creating symlinks
 
+#!/bin/bash
+# Pull newest code.
+echo "Pulling...";
+git pull;
+echo "Done.";
 
 rm -r application
 ln -s /home/oxidbase/data/application/ application
