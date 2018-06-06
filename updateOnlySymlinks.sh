@@ -128,6 +128,8 @@ ln -s /home/oxidbase/data/modules/translations/.gitignore modules/translations/.
 rm -r modules/shopinn
 ln -s /home/oxidbase/data/modules/shopinn/ modules/shopinn
 
+rm -r modules/gdpr
+ln -s /home/oxidbase/data/modules/gdpr/ modules/gdpr
 
 # Set permissions and owner.
 echo "Changing permissions ...";
