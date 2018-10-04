@@ -101,6 +101,9 @@ ln -s /home/oxidbase/data/modules/update_domain/ modules/update_domain
 rm -r modules/watermark
 ln -s /home/oxidbase/data/modules/watermark/ modules/watermark
 
+rm -r modules/facebook_pixel
+ln -s /home/oxidbase/data/modules/facebook_pixel/ modules/facebook_pixel
+
 rm -r modules/functions.php
 ln -s /home/oxidbase/data/modules/functions.php modules/functions.php
 
